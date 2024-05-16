@@ -4,6 +4,8 @@ import { SuccessResponse } from "@/response/success.response";
 import crypto from "node:crypto";
 import asyncHandler from "@/middleware/asyncHandler";
 import EncryptionController from "@/controller/EncryptionController";
+import authController from "@/controller/auth.controller";
+import authMiddleware from "@/middleware/authentication";
 
 const router = express.Router();
 
@@ -29,7 +31,11 @@ router.post('/encrypt', asyncHandler(EncryptionController.encrypt));
 router.post('/decrypt', asyncHandler(EncryptionController.decrypt));
 
 // auth routes
-router.post('/auth/register')
-router.get('/auth/login');
+router.post('/auth/register', asyncHandler(authController.register));
+router.post('/auth/login', asyncHandler(authController.login));
+router.get('/auth/logout', authMiddleware.authenticateUser, asyncHandler(authController.logout));
 
+//product routes
+router.post('/products',
+    [authMiddleware.authenticateUser, authMiddleware.authorizePermissions],)
 export default router;

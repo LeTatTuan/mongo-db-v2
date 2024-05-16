@@ -25,7 +25,6 @@ const userSchema = new mongoose.Schema(
             required: [true, "Please provide password"],
             minlength: 6,
         },
-        tokens: [{ type: Object }],
         roles: [
             {
                 type: mongoose.Schema.Types.ObjectId,
