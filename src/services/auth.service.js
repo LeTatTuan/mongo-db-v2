@@ -86,7 +86,7 @@ class authService {
         const accessToken = jwtService.createJWT({ payload: { user: userPayload } }, ACCESS_TOKEN_SECRET);
 
         const userToken = await Token.findOne({ user: user._id });
-        console.log(userToken);
+
         let refreshToken = '';
         if (userToken) {
             let oldTokens = userToken.accessTokens || [];

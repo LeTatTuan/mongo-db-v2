@@ -6,6 +6,7 @@ import asyncHandler from "@/middleware/asyncHandler";
 import EncryptionController from "@/controller/EncryptionController";
 import authController from "@/controller/auth.controller";
 import authMiddleware from "@/middleware/authentication";
+import productController from "@/controller/product.controller";
 
 const router = express.Router();
 
@@ -37,5 +38,9 @@ router.get('/auth/logout', authMiddleware.authenticateUser, asyncHandler(authCon
 
 //product routes
 router.post('/products',
-    [authMiddleware.authenticateUser, authMiddleware.authorizePermissions],)
+    [authMiddleware.authenticateUser, authMiddleware.authorizePermissions], asyncHandler(productController.createProduct));
+router.get('/products', productController.getAllProducts);
+router.get('/products/:id', asyncHandler(productController.getProduct));
+router.put('/products/:id', [authMiddleware.authenticateUser, authMiddleware.authorizePermissions], asyncHandler(productController.updateProduct));
+router.delete('/products/:id', [authMiddleware.authenticateUser, authMiddleware.authorizePermissions], asyncHandler(productController.deleteProduct));
 export default router;

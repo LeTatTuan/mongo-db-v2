@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
     name: {
-        typeo: String,
+        type: String,
         trim: true,
         required: [true, 'Please provide product name'],
         maxlength: [100, 'Name can not be more than 100 characters']
@@ -66,14 +66,10 @@ const productSchema = new mongoose.Schema({
         required: true
     }
 
-}, { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
+}, { timestamps: true, toJSON: { virtuals: true, getters: true }, toObject: { virtuals: true, getters: true } }
 );
-
-// productSchema.virtual('reviews', {
-//     ref: 'Reviews',
-//     localField: '_id',
-//     foreignField: 'product',
-//     justOne: false
+// productSchema.virtual('id').get(function () {
+//     return this._id.toString();
 // });
 
 export default mongoose.model('Product', productSchema);
